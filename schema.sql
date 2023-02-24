@@ -29,3 +29,18 @@ ALTER TABLE animals ADD owner_id INT;
 
 ALTER TABLE animals ADD CONSTRAINT foreign_key_owners FOREIGN KEY (owner_id) REFERENCES owners(id);
 
+-- Create a table named vets with the following columns:
+-- id: integer (set it as autoincremented PRIMARY KEY)
+-- name: string
+-- age: integer
+-- date_of_graduation: date
+
+CREATE TABLE vets (id SERIAL PRIMARY KEY,name VARCHAR(255), age INT, date_of_graduation DATE );
+
+-- There is a many-to-many relationship between the tables species and vets: a vet can specialize in multiple species, and a species can have multiple vets specialized in it.
+--  Create a "join table" called specializations to handle this relationship.
+
+CREATE TABLE specializations (vet_id INTEGER REFERENCES vets(id),species_id INTEGER REFERENCES species(id),PRIMARY KEY (vet_id, species_id));
+
+-- VISITS TABLE
+CREATE TABLE visits (id SERIAL PRIMARY KEY,animal_id UUID REFERENCES animals(id),vet_id INTEGER REFERENCES vets(id),visit_date DATE);
